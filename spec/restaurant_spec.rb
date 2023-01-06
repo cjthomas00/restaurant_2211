@@ -2,7 +2,7 @@ require 'rspec'
 require 'pry'
 require './lib/restaurant'
 require 'time'
-#Time.strptime("10pm", "%I%P").strftime("%H:%M")
+Time.strptime("10pm", "%I%P").strftime("%H:%M")
 
 RSpec.describe Restaurant do
   describe 'Iteration 1' do
@@ -39,18 +39,32 @@ RSpec.describe Restaurant do
   end
   describe 'Iteration 3' do
     it 'is open for lunch' do
-      restaurant = Restaurant.new('10:00', 'Fuel Cafe')
-      expect(restaurant.open_for_lunch?).to eq(true)
+      restaurant1 = Restaurant.new('10:00', 'Fuel Cafe')
+      restaurant2 = Restaurant.new('16:00', 'Il Posto')
+
+      expect(restaurant1.open_for_lunch?).to eq(true)
+      expect(restaurant2.open_for_lunch?).to eq(false)
    end
 
     it 'has excited menu' do
-      restaurant = Restaurant.new('10:00', 'Fuel Cafe')
-      
-      restaurant.add_dish('Burrata')
-      restaurant.add_dish('Pizzetta')
-      restaurant.add_dish('Ravioli')
+      restaurant1 = Restaurant.new('10:00', 'Fuel Cafe')
+      restaurant2 = Restaurant.new('16:00', 'Il Posto')
 
-      expect(restaurant.menu_dish_names).to eq(['BURRATA', 'PIZZETTA', 'RAVIOLI'])
+      restaurant2.add_dish('Burrata')
+      restaurant2.add_dish('Pizzetta')
+      restaurant2.add_dish('Ravioli')
+
+      expect(restaurant2.menu_dish_names).to eq(['BURRATA', 'PIZZETTA', 'RAVIOLI'])
+    end
+  end
+
+  describe 'Iteration 4' do
+    it 'announces closing time' do
+      restaurant1 = Restaurant.new('6:00', 'Fuel Cafe')
+      restaurant2 = Restaurant.new('16:00', 'Il Posto')
+
+      expect(restaurant1.announce_closing_time(5)).to eq("Fuel Cafe will be closing at 11:00AM")
+      expect(restaurant2.announce_closing_time(7)).to eq("Il Posto will be closing at 11:00PM")
     end
   end
 end
